@@ -33,7 +33,7 @@ class ProductCategoryActivity : AppCompatActivity() {
         viewModel.products.observe(this, Observer {
             when (it) {
                 is Resource.Success -> {
-                    println(it.data)
+                    viewModel.storeInSQLDatabase(it.data)
                 }
                 is Resource.Error -> {
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()

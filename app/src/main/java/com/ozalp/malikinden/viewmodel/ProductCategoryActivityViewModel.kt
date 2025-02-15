@@ -3,6 +3,7 @@ package com.ozalp.malikinden.viewmodel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.ozalp.malikinden.R
+import com.ozalp.malikinden.database.MalikindenDatabase
 import com.ozalp.malikinden.model.Product
 import com.ozalp.malikinden.service.ProductService
 import com.ozalp.malikinden.util.Resource
@@ -10,6 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 
 class ProductCategoryActivityViewModel(application: Application): BaseViewModel(application) {
 
@@ -37,6 +39,20 @@ class ProductCategoryActivityViewModel(application: Application): BaseViewModel(
                     }
                 })
         )
+    }
+
+    fun storeInSQLDatabase(l: List<Product>) {
+        launch {
+            val productDao = MalikindenDatabase(getApplication()).productDao()
+
+            productDao.insertAll(*l.toTypedArray())
+
+            val allProducts = productDao.getAll()
+
+            allProducts.forEach { product ->
+                println("Product ID: ${product.id}, Name: ${product.description}, Location: ${product.location}")
+            }
+        }
     }
 
 }
