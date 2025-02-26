@@ -7,15 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.ozalp.malikinden.R
 import com.ozalp.malikinden.adapter.CategorySelectionAdapter
 import com.ozalp.malikinden.databinding.FragmentProductListBinding
 import com.ozalp.malikinden.model.Product
+import com.ozalp.malikinden.util.ProductItemOnclickListener
 import com.ozalp.malikinden.util.SharedPreferencesUtil
 import com.ozalp.malikinden.viewmodel.ProductActivityViewModel
 
-class ProductListFragment : Fragment() {
+class ProductListFragment : Fragment(), ProductItemOnclickListener {
     private lateinit var viewModel: ProductActivityViewModel
     private lateinit var categorySelectionAdapter: CategorySelectionAdapter
     private lateinit var binding: FragmentProductListBinding
@@ -36,7 +38,6 @@ class ProductListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return binding.root
     }
 
@@ -55,8 +56,13 @@ class ProductListFragment : Fragment() {
     private fun init() {
         binding = FragmentProductListBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(this).get(ProductActivityViewModel::class.java)
-        categorySelectionAdapter = CategorySelectionAdapter()
+        categorySelectionAdapter = CategorySelectionAdapter(this)
         binding.categoryRecyclerView.adapter = categorySelectionAdapter
 
+    }
+
+    override fun onItemClicked(product: Product) {
+        val action = ProductListFragmentDirections.actionProductListFragmentToProductFragment(product.uuid)
+        Navigation.findNavController(requireView()).navigate(action)
     }
 }

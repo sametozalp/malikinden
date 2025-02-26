@@ -10,6 +10,7 @@ import com.ozalp.malikinden.adapter.CategoryAdapter
 import com.ozalp.malikinden.databinding.ActivityMainBinding
 import com.ozalp.malikinden.util.CategoryItemClickListener
 import com.ozalp.malikinden.util.Resource
+import com.ozalp.malikinden.util.SharedPreferencesUtil
 import com.ozalp.malikinden.viewmodel.MainActivityViewModel
 
 class MainActivity : AppCompatActivity(), CategoryItemClickListener {
@@ -64,7 +65,8 @@ class MainActivity : AppCompatActivity(), CategoryItemClickListener {
 
     override fun onItemClicked(string: String) {
         val intent = Intent(this, ProductActivity::class.java)
-        intent.putExtra("type", string)
+        val sharedPreferencesUtil = SharedPreferencesUtil.getInstance(this)
+        sharedPreferencesUtil.saveProductType(string)
         startActivity(intent)
     }
 }

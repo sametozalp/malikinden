@@ -6,10 +6,15 @@
         <variable
             name="product"
             type="com.ozalp.malikinden.model.Product" />
+
+        <variable
+            name="listener"
+            type="com.ozalp.malikinden.util.ProductItemOnclickListener" />
     </data>
 
 
     <LinearLayout
+        android:onClick="@{() -> listener.onItemClicked(product)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

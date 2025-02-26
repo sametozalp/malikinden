@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ozalp.malikinden.R
 import com.ozalp.malikinden.databinding.CategorySelectionItemBinding
 import com.ozalp.malikinden.model.Product
+import com.ozalp.malikinden.util.CategoryItemClickListener
+import com.ozalp.malikinden.util.ProductItemOnclickListener
 import java.util.ArrayList
 
-class CategorySelectionAdapter: RecyclerView.Adapter<CategorySelectionAdapter.CategorySelectionHolder>() {
+class CategorySelectionAdapter(val listener: ProductItemOnclickListener): RecyclerView.Adapter<CategorySelectionAdapter.CategorySelectionHolder>() {
 
     private val categorySelectionList = ArrayList<Product>()
 
@@ -37,6 +39,7 @@ class CategorySelectionAdapter: RecyclerView.Adapter<CategorySelectionAdapter.Ca
     override fun onBindViewHolder(holder: CategorySelectionHolder, position: Int) {
 
         holder.binding.product = categorySelectionList[position]
+        holder.binding.listener = listener
 
     }
 }
