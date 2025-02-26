@@ -14,4 +14,12 @@ interface ProductDao: BaseDao {
     @Query("select * from product")
     suspend fun getAll(): List<Product>
 
+    @Query("SELECT DISTINCT type FROM product")
+    suspend fun getUniqueTypes(): List<String>
+
+    @Query("select * from product where type = :type")
+    suspend fun getProductsByType(type: String): List<Product>
+
+    @Query("delete from product")
+    suspend fun deleteAll()
 }
